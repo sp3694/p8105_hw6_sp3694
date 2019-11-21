@@ -1,0 +1,14 @@
+---
+title: "HW6"
+author: "Stephen Powers"
+date: "11/21/2019"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Problem 1 
+
+## Problem 2 
