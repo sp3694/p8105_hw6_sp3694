@@ -7,8 +7,22 @@ output: github_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(viridis)
+library(patchwork)
+library(modelr)
 ```
 
 ## Problem 1 
+
+#### Loading data
+
+```{r}
+birthweight = 
+  read_csv("./data/birthweight.csv") %>% 
+  janitor::clean_names()
+```
+
 
 ## Problem 2 
