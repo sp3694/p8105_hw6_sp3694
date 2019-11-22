@@ -5,12 +5,25 @@ Stephen Powers
 
 ## Problem 1
 
-#### Loading data
+#### Loading and tidying data
 
 ``` r
 birthweight = 
   read_csv("./data/birthweight.csv") %>% 
-  janitor::clean_names()
+  janitor::clean_names() %>% 
+  mutate(
+    babysex = factor(babysex, 
+                     levels = c(1, 2), 
+                     labels = c("male", "female")),
+    frace = factor(frace, 
+                   levels = c(1, 2, 3, 4, 8, 9), 
+                   labels = c("white", "black", "asian", "puerto rican", "other", "unknown")),
+    mrace = factor(mrace, 
+                   levels = c(1, 2, 3, 4, 8, 9), 
+                   labels = c("white", "black", "asian", "puerto rican", "other", "unknown")),
+    malform = factor(malform, 
+                     levels = c(0, 1), 
+                     labels = c("absent", "present"))) %>% view
 ```
 
     ## Parsed with column specification:
