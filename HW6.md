@@ -11,6 +11,7 @@ Stephen Powers
 birthweight = 
   read_csv("./data/birthweight.csv") %>% 
   janitor::clean_names() %>% 
+  drop_na() %>% 
   mutate(
     babysex = factor(babysex, 
                      levels = c(1, 2), 
@@ -23,7 +24,7 @@ birthweight =
                    labels = c("white", "black", "asian", "puerto rican", "other", "unknown")),
     malform = factor(malform, 
                      levels = c(0, 1), 
-                     labels = c("absent", "present"))) %>% view
+                     labels = c("absent", "present")))
 ```
 
     ## Parsed with column specification:
