@@ -34,4 +34,24 @@ birthweight =
 
     ## See spec(...) for full column specifications.
 
+#### Propose a regression model for birthweight
+
+``` r
+birthweight_base_model = 
+  lm(bwt ~ gaweeks + malform + blength + bhead + babysex + wtgain + smoken, data = birthweight)
+```
+
+#### Creating residual plot
+
+``` r
+bw_plot = modelr::add_residuals(birthweight, birthweight_base_model) 
+bw_plot = modelr::add_predictions(bw_plot, birthweight_base_model)
+
+bw_plot %>% 
+  ggplot(aes(x = pred, y = resid)) + 
+  geom_point() 
+```
+
+![](HW6_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
 ## Problem 2
