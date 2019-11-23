@@ -69,6 +69,33 @@ bw_model2 =
 ``` r
 cv_df = 
   crossv_mc(birthweight, 100)
+
+cv_df = 
+  cv_df %>% 
+    mutate(base_model = 
+             map(train, ~lm(bwt ~ gaweeks + malform + blength + bhead + babysex + wtgain + smoken, data = .x)), 
+           model1 = 
+             map(train, ~lm(bwt ~ blength + gaweeks, data = .x)), 
+           model2 = 
+             map(train, ~lm(bwt ~ bhead + blength + babysex + bhead*blength + bhead*babysex + blength*babysex + bhead*blength*babysex, data = .x))) %>% 
+    mutate(rmse_base = 
+              map2_dbl(base_model, test, ~rmse(model = .x, data = .y)),
+          rmse_model1 = 
+              map2_dbl(model1, test, ~rmse(model = .x, data = .y)),
+          rmse_model2 = 
+              map2_dbl(model2, test, ~rmse(model = .x, data = .y)))
+
+cv_df %>% 
+  select(starts_with("rmse")) %>% 
+  pivot_longer(
+    everything(),
+    names_to = "model", 
+    values_to = "rmse",
+    names_prefix = "rmse_") %>% 
+  mutate(model = fct_inorder(model)) %>% 
+  ggplot(aes(x = model, y = rmse)) + geom_violin()
 ```
+
+![](HW6_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 ## Problem 2
