@@ -52,8 +52,23 @@ bw_plot = modelr::add_predictions(bw_plot, birthweight_base_model)
 bw_plot %>% 
   ggplot(aes(x = pred, y = resid)) + 
   geom_point() 
+```
 
+#### Comparing the model above to two others
 
+```{r}
+bw_model1 =
+  lm(bwt ~ blength + gaweeks, data = birthweight)
+  
+bw_model2 = 
+  lm(bwt ~ bhead + blength + babysex + bhead*blength + bhead*babysex + blength*babysex + bhead*blength*babysex, data = birthweight)
+```
+
+#### Comparison in terms of the cross-validated prediction error
+
+```{r}
+cv_df = 
+  crossv_mc(birthweight, 100)
 ```
 
 

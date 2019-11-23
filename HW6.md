@@ -54,4 +54,21 @@ bw_plot %>%
 
 ![](HW6_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
+#### Comparing the model above to two others
+
+``` r
+bw_model1 =
+  lm(bwt ~ blength + gaweeks, data = birthweight)
+  
+bw_model2 = 
+  lm(bwt ~ bhead + blength + babysex + bhead*blength + bhead*babysex + blength*babysex + bhead*blength*babysex, data = birthweight)
+```
+
+#### Comparison in terms of the cross-validated prediction error
+
+``` r
+cv_df = 
+  crossv_mc(birthweight, 100)
+```
+
 ## Problem 2
