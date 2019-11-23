@@ -129,3 +129,22 @@ weather_df =
     ## file last updated:  2019-09-03 11:49:56
 
     ## file min/max dates: 1869-01-01 / 2019-09-30
+
+#### Creating bootstrap function and sample
+
+``` r
+set.seed(1)
+
+boot_sample = function(df) {
+  sample_frac(df, replace = TRUE)
+}
+
+boot_straps = 
+  data_frame(
+    strap_number = 1:5000,
+    strap_sample = rerun(5000, boot_sample(weather_df))
+  )
+```
+
+    ## Warning: `data_frame()` is deprecated, use `tibble()`.
+    ## This warning is displayed once per session.

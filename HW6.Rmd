@@ -114,3 +114,20 @@ weather_df =
   select(name, id, everything())
 ```
 
+#### Creating bootstrap function and sample 
+
+```{r}
+set.seed(1)
+
+boot_sample = function(df) {
+  sample_frac(df, replace = TRUE)
+}
+
+boot_straps = 
+  data_frame(
+    strap_number = 1:5000,
+    strap_sample = rerun(5000, boot_sample(weather_df))
+  )
+```
+
+
