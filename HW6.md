@@ -99,3 +99,33 @@ cv_df %>%
 ![](HW6_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 ## Problem 2
+
+#### Loading in data
+
+``` r
+weather_df = 
+  rnoaa::meteo_pull_monitors(
+    c("USW00094728"),
+    var = c("PRCP", "TMIN", "TMAX"), 
+    date_min = "2017-01-01",
+    date_max = "2017-12-31") %>%
+  mutate(
+    name = recode(id, USW00094728 = "CentralPark_NY"),
+    tmin = tmin / 10,
+    tmax = tmax / 10) %>%
+  select(name, id, everything())
+```
+
+    ## Registered S3 method overwritten by 'crul':
+    ##   method                 from
+    ##   as.character.form_file httr
+
+    ## Registered S3 method overwritten by 'hoardr':
+    ##   method           from
+    ##   print.cache_info httr
+
+    ## file path:          /Users/StephenPowers/Library/Caches/rnoaa/ghcnd/USW00094728.dly
+
+    ## file last updated:  2019-09-03 11:49:56
+
+    ## file min/max dates: 1869-01-01 / 2019-09-30
