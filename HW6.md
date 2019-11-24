@@ -49,7 +49,8 @@ bw_plot = modelr::add_predictions(bw_plot, birthweight_base_model)
 
 bw_plot %>% 
   ggplot(aes(x = pred, y = resid)) + 
-  geom_point() 
+  geom_point() +
+  theme_minimal()
 ```
 
 ![](HW6_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
@@ -93,7 +94,9 @@ cv_df %>%
     values_to = "rmse",
     names_prefix = "rmse_") %>% 
   mutate(model = fct_inorder(model)) %>% 
-  ggplot(aes(x = model, y = rmse)) + geom_violin()
+  ggplot(aes(x = model, y = rmse)) + 
+    geom_violin() +
+    theme_minimal()
 ```
 
 ![](HW6_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
@@ -203,4 +206,7 @@ log_plot + r2_plot
 
 The distributions of both of the plots above appears to be normal. The
 median of the log(β0∗β1) value is 2.01, and the mean is 2.01. The median
-of the r2 value is 0.91, and the mean is 0.91.
+of the r^2 value is 0.91, and the mean is 0.91.
+
+The 95% confidence interval of log(β0∗β1) is (1.96, 2.06). The 95%
+confidence interval of r^2 is (0.89, 0.93).

@@ -50,7 +50,8 @@ bw_plot = modelr::add_predictions(bw_plot, birthweight_base_model)
 
 bw_plot %>% 
   ggplot(aes(x = pred, y = resid)) + 
-  geom_point() 
+  geom_point() +
+  theme_minimal()
 ```
 
 #### Comparing the model above to two others
@@ -92,7 +93,9 @@ cv_df %>%
     values_to = "rmse",
     names_prefix = "rmse_") %>% 
   mutate(model = fct_inorder(model)) %>% 
-  ggplot(aes(x = model, y = rmse)) + geom_violin()
+  ggplot(aes(x = model, y = rmse)) + 
+    geom_violin() +
+    theme_minimal()
 ```
 
 ## Problem 2 
@@ -174,4 +177,6 @@ r2_plot =
 log_plot + r2_plot
 ```
 
-The distributions of both of the plots above appears to be normal. The median of the log(β0∗β1) value is `r round(median(pull(bootstrap_results, log_b0b1)), digits=2)`, and the mean is `r round(mean(pull(bootstrap_results, log_b0b1)), digits=2)`. The median of the r2 value is `r round(median(pull(bootstrap_results, r2)), digits=2)`, and the mean is `r round(mean(pull(bootstrap_results, r2)), digits=2)`. 
+The distributions of both of the plots above appears to be normal. The median of the log(β0∗β1) value is `r round(median(pull(bootstrap_results, log_b0b1)), digits=2)`, and the mean is `r round(mean(pull(bootstrap_results, log_b0b1)), digits=2)`. The median of the r^2 value is `r round(median(pull(bootstrap_results, r2)), digits=2)`, and the mean is `r round(mean(pull(bootstrap_results, r2)), digits=2)`. 
+
+The 95% confidence interval of log(β0∗β1) is (`r round(quantile(pull(bootstrap_results, log_b0b1), probs = c(0.025,0.975)), digits = 2)`). The 95% confidence interval of r^2 is (`r round(quantile(pull(bootstrap_results, r2), probs = c(0.025,0.975)), digits = 2)`).
