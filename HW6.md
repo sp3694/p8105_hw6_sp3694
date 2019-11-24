@@ -41,6 +41,10 @@ birthweight_base_model =
   lm(bwt ~ gaweeks + malform + blength + bhead + babysex + wtgain + smoken, data = birthweight)
 ```
 
+The model above was based on on a hypothesized structure for the factors
+that underly birthweight. It was not based on a data-driven
+model-building process.
+
 #### Creating residual plot
 
 ``` r
