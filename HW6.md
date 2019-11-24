@@ -148,3 +148,59 @@ boot_straps =
 
     ## Warning: `data_frame()` is deprecated, use `tibble()`.
     ## This warning is displayed once per session.
+
+#### Estimated log(β0∗β1)
+
+``` r
+bootstrap_results = 
+  boot_straps %>% 
+  mutate(
+    model = map(strap_sample, ~lm(tmax ~ tmin, data = .x)),
+    results = map(model, broom::tidy)
+  ) %>% 
+  unnest(cols = c(results)) %>%
+  select(strap_number, model:estimate) %>% 
+  pivot_wider(names_from = term, values_from = estimate) %>%
+  janitor::clean_names() %>%
+  rename(b0 = intercept, b1 = tmin) %>%
+  mutate(log_b0b1 = log(b0*b1)) %>%
+  select(-b0,-b1)
+```
+
+#### Estimated r^2
+
+``` r
+bootstrap_results =
+  bootstrap_results %>%
+  mutate(results2 = map(model, broom::glance)) %>%
+  unnest(cols = c(results2)) %>%
+  select(strap_number:r.squared) %>%
+  rename(r2 = r.squared)
+```
+
+#### Creating plots
+
+``` r
+log_plot =
+bootstrap_results %>%
+  ggplot(aes(x = log_b0b1)) +
+  geom_histogram() +
+  theme_minimal()
+
+r2_plot = 
+  bootstrap_results %>%
+  ggplot(aes(x = r2)) + 
+  geom_histogram() +
+  theme_minimal()
+
+log_plot + r2_plot
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+![](HW6_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
+The distributions of both of the plots above appears to be normal. The
+median of the log(β0∗β1) value is 2.01, and the mean is 2.01. The median
+of the r2 value is 0.91, and the mean is 0.91.
