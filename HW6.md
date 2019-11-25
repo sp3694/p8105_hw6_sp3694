@@ -161,17 +161,16 @@ boot_straps =
 ``` r
 bootstrap_results = 
   boot_straps %>% 
-  mutate(
-    model = map(strap_sample, ~lm(tmax ~ tmin, data = .x)),
-    results = map(model, broom::tidy)
-  ) %>% 
-  unnest(cols = c(results)) %>%
-  select(strap_number, model:estimate) %>% 
-  pivot_wider(names_from = term, values_from = estimate) %>%
-  janitor::clean_names() %>%
-  rename(b0 = intercept, b1 = tmin) %>%
-  mutate(log_b0b1 = log(b0*b1)) %>%
-  select(-b0,-b1)
+    mutate(
+      model = map(strap_sample, ~lm(tmax ~ tmin, data = .x)),
+      results = map(model, broom::tidy)) %>% 
+    unnest(cols = c(results)) %>%
+    select(strap_number, model:estimate) %>% 
+    pivot_wider(names_from = term, values_from = estimate) %>%
+    janitor::clean_names() %>%
+    rename(b0 = intercept, b1 = tmin) %>%
+    mutate(log_b0b1 = log(b0*b1)) %>%
+    select(-b0,-b1)
 ```
 
 #### Estimated r^2
@@ -189,16 +188,16 @@ bootstrap_results =
 
 ``` r
 log_plot =
-bootstrap_results %>%
-  ggplot(aes(x = log_b0b1)) +
-  geom_histogram() +
-  theme_minimal()
+  bootstrap_results %>%
+    ggplot(aes(x = log_b0b1)) +
+    geom_histogram() +
+    theme_minimal()
 
 r2_plot = 
   bootstrap_results %>%
-  ggplot(aes(x = r2)) + 
-  geom_histogram() +
-  theme_minimal()
+    ggplot(aes(x = r2)) + 
+    geom_histogram() +
+    theme_minimal()
 
 log_plot + r2_plot
 ```
